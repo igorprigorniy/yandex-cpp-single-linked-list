@@ -3,11 +3,11 @@
 #include <iterator>
 #include <cassert>
 
-// Класс односвязного списка
+// РљР»Р°СЃСЃ РѕРґРЅРѕСЃРІСЏР·РЅРѕРіРѕ СЃРїРёСЃРєР°
 template <typename Type>
 class SingleLinkedList {
 private:
-    // Структура узла списка
+    // РЎС‚СЂСѓРєС‚СѓСЂР° СѓР·Р»Р° СЃРїРёСЃРєР°
     struct Node {
         Node() = default;
         Node(const Type& val, Node* next) : value(val), next_node(next) { }
@@ -16,89 +16,89 @@ private:
         Node* next_node = nullptr;
     };
 
-    // Класс итератора/константного итератора (ValueType=Type/const Type) списка
+    // РљР»Р°СЃСЃ РёС‚РµСЂР°С‚РѕСЂР°/РєРѕРЅСЃС‚Р°РЅС‚РЅРѕРіРѕ РёС‚РµСЂР°С‚РѕСЂР° (ValueType=Type/const Type) СЃРїРёСЃРєР°
     template <typename ValueType>
     class BasicIterator {
-        // Предоставим классу списка доступ к приватным полям и методам
+        // РџСЂРµРґРѕСЃС‚Р°РІРёРј РєР»Р°СЃСЃСѓ СЃРїРёСЃРєР° РґРѕСЃС‚СѓРї Рє РїСЂРёРІР°С‚РЅС‹Рј РїРѕР»СЏРј Рё РјРµС‚РѕРґР°Рј
         friend class SingleLinkedList;
 
     public:
-        // Описание типа итератора
+        // РћРїРёСЃР°РЅРёРµ С‚РёРїР° РёС‚РµСЂР°С‚РѕСЂР°
         using iterator_category = std::forward_iterator_tag;
         using value_type = Type;
         using difference_type = std::ptrdiff_t;
         using pointer = ValueType*;
         using reference = ValueType&;
 
-        // Конструктор по умолчанию
+        // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
         BasicIterator() = default;
 
-        // Конструктор копирования
+        // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ
         BasicIterator(const BasicIterator<Type>& other) noexcept : node_(other.node_) { }
 
-        // Оператор присваивания
+        // РћРїРµСЂР°С‚РѕСЂ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
         BasicIterator& operator = (const BasicIterator& rhs) = default;
 
-        // Операторы сравнения неконстантных итераторов (ValueType = Type)
+        // РћРїРµСЂР°С‚РѕСЂС‹ СЃСЂР°РІРЅРµРЅРёСЏ РЅРµРєРѕРЅСЃС‚Р°РЅС‚РЅС‹С… РёС‚РµСЂР°С‚РѕСЂРѕРІ (ValueType = Type)
         [[nodiscard]] bool operator == (const BasicIterator<Type>& rhs) const noexcept { return node_ == rhs.node_; }
         [[nodiscard]] bool operator != (const BasicIterator<Type>& rhs) const noexcept { return !(*this == rhs); }
 
-        // Операторы сравнения константных итераторов (ValueType = const Type)
+        // РћРїРµСЂР°С‚РѕСЂС‹ СЃСЂР°РІРЅРµРЅРёСЏ РєРѕРЅСЃС‚Р°РЅС‚РЅС‹С… РёС‚РµСЂР°С‚РѕСЂРѕРІ (ValueType = const Type)
         [[nodiscard]] bool operator == (const BasicIterator<const Type>& rhs) const noexcept { return node_ == rhs.node_; }
         [[nodiscard]] bool operator != (const BasicIterator<const Type>& rhs) const noexcept { return !(*this == rhs); }
 
-        // Преинкремент
+        // РџСЂРµРёРЅРєСЂРµРјРµРЅС‚
         BasicIterator& operator ++ () noexcept {
             assert(node_);
             node_ = node_->next_node;
             return *this;
         }
 
-        // Постинкремент
+        // РџРѕСЃС‚РёРЅРєСЂРµРјРµРЅС‚
         BasicIterator operator ++ (int) noexcept {
             BasicIterator tmp(*this);
             ++(*this);
             return tmp;
         }
 
-        // Оператор разыменовывания
+        // РћРїРµСЂР°С‚РѕСЂ СЂР°Р·С‹РјРµРЅРѕРІС‹РІР°РЅРёСЏ
         [[nodiscard]] reference operator * () const noexcept {
             assert(node_);
             return node_->value;
         }
 
-        // Оператор доступа к членам
+        // РћРїРµСЂР°С‚РѕСЂ РґРѕСЃС‚СѓРїР° Рє С‡Р»РµРЅР°Рј
         [[nodiscard]] pointer operator -> () const noexcept {
             assert(node_);
             return &(node_->value);
         }
 
     private:
-        // Указатель на узел
+        // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° СѓР·РµР»
         Node* node_ = nullptr;
 
-        // Конструктор, создающий итератор из указателя на узел (используется в классе списка)
+        // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ, СЃРѕР·РґР°СЋС‰РёР№ РёС‚РµСЂР°С‚РѕСЂ РёР· СѓРєР°Р·Р°С‚РµР»СЏ РЅР° СѓР·РµР» (РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ РєР»Р°СЃСЃРµ СЃРїРёСЃРєР°)
         explicit BasicIterator(Node* node) : node_(node) { }
     };
 
 public:
-    // Конструктор по умолчанию создаёт пустой список
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ СЃРѕР·РґР°С‘С‚ РїСѓСЃС‚РѕР№ СЃРїРёСЃРѕРє
     SingleLinkedList() noexcept = default;
 
-    // Конструктор, создающий список из элементов std::initializer_list
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ, СЃРѕР·РґР°СЋС‰РёР№ СЃРїРёСЃРѕРє РёР· СЌР»РµРјРµРЅС‚РѕРІ std::initializer_list
     SingleLinkedList(std::initializer_list<Type> values) {
         CopyAndSwapFromIteratorRage(values.begin(), values.end());
     }
 
-    // Конструктор копирования
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ
     SingleLinkedList(const SingleLinkedList& other) {
         CopyAndSwapFromIteratorRage(other.begin(), other.end());
     }
 
-    // Деструктор
+    // Р”РµСЃС‚СЂСѓРєС‚РѕСЂ
     ~SingleLinkedList() noexcept { Clear(); }
 
-    // Оператор присваивания
+    // РћРїРµСЂР°С‚РѕСЂ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
     SingleLinkedList& operator = (const SingleLinkedList& rhs) {
         if (this != &rhs) {
             SingleLinkedList<Type> rhs_copy(rhs);
@@ -107,7 +107,7 @@ public:
         return *this;
     }
 
-    // Псевдонимы для типов, ссылок, константных ссылок, итераторов и константных итераторов
+    // РџСЃРµРІРґРѕРЅРёРјС‹ РґР»СЏ С‚РёРїРѕРІ, СЃСЃС‹Р»РѕРє, РєРѕРЅСЃС‚Р°РЅС‚РЅС‹С… СЃСЃС‹Р»РѕРє, РёС‚РµСЂР°С‚РѕСЂРѕРІ Рё РєРѕРЅСЃС‚Р°РЅС‚РЅС‹С… РёС‚РµСЂР°С‚РѕСЂРѕРІ
     using value_type = Type;
     using reference = value_type&;
     using const_reference = const value_type&;
@@ -115,12 +115,12 @@ public:
     using Iterator      = BasicIterator<Type>;
     using ConstIterator = BasicIterator<const Type>;
 
-    // Итераторы, указывающие на начало, конец и фиктивный узел списка
+    // РС‚РµСЂР°С‚РѕСЂС‹, СѓРєР°Р·С‹РІР°СЋС‰РёРµ РЅР° РЅР°С‡Р°Р»Рѕ, РєРѕРЅРµС† Рё С„РёРєС‚РёРІРЅС‹Р№ СѓР·РµР» СЃРїРёСЃРєР°
     [[nodiscard]] Iterator begin()        noexcept { return Iterator(head_.next_node); }
     [[nodiscard]] Iterator end()          noexcept { return Iterator(nullptr); }
     [[nodiscard]] Iterator before_begin() noexcept { return Iterator(&head_); }
 
-    // Константные итераторы, указывающие на начало, конец и фиктивный узел списка
+    // РљРѕРЅСЃС‚Р°РЅС‚РЅС‹Рµ РёС‚РµСЂР°С‚РѕСЂС‹, СѓРєР°Р·С‹РІР°СЋС‰РёРµ РЅР° РЅР°С‡Р°Р»Рѕ, РєРѕРЅРµС† Рё С„РёРєС‚РёРІРЅС‹Р№ СѓР·РµР» СЃРїРёСЃРєР°
     [[nodiscard]] ConstIterator begin()        const noexcept { return cbegin(); }
     [[nodiscard]] ConstIterator end()          const noexcept { return cend(); }
     [[nodiscard]] ConstIterator before_begin() const noexcept { return cbefore_begin(); }
@@ -129,25 +129,25 @@ public:
     [[nodiscard]] ConstIterator cend()          const noexcept { return Iterator(nullptr); }
     [[nodiscard]] ConstIterator cbefore_begin() const noexcept { return Iterator(const_cast<Node*>(&head_)); }
 
-    // Функция обмена с другим списком
+    // Р¤СѓРЅРєС†РёСЏ РѕР±РјРµРЅР° СЃ РґСЂСѓРіРёРј СЃРїРёСЃРєРѕРј
     void swap(SingleLinkedList& other) noexcept {
         std::swap(head_.next_node, other.head_.next_node);
         std::swap(size_, other.size_);
     }
 
-    // Функция получения размера
+    // Р¤СѓРЅРєС†РёСЏ РїРѕР»СѓС‡РµРЅРёСЏ СЂР°Р·РјРµСЂР°
     [[nodiscard]] size_t GetSize() const noexcept { return size_; }
 
-    // Функция проверки на пустоту
+    // Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё РЅР° РїСѓСЃС‚РѕС‚Сѓ
     [[nodiscard]] bool IsEmpty() const noexcept { return size_ == 0u; }
 
-    // Функция добавления в начало списка
+    // Р¤СѓРЅРєС†РёСЏ РґРѕР±Р°РІР»РµРЅРёСЏ РІ РЅР°С‡Р°Р»Рѕ СЃРїРёСЃРєР°
     void PushFront(const Type& value) {
         head_.next_node = new Node(value, head_.next_node);
         ++size_;
     }
 
-    // Функция удаления из начала списка
+    // Р¤СѓРЅРєС†РёСЏ СѓРґР°Р»РµРЅРёСЏ РёР· РЅР°С‡Р°Р»Р° СЃРїРёСЃРєР°
     void PopFront() noexcept {
         assert(!IsEmpty());
 
@@ -157,8 +157,8 @@ public:
         --size_;
     }
 
-    // Функция добавления в конец списка
-    // Это не просили делать, но пусть будет (в остальных методах не используется)
+    // Р¤СѓРЅРєС†РёСЏ РґРѕР±Р°РІР»РµРЅРёСЏ РІ РєРѕРЅРµС† СЃРїРёСЃРєР°
+    // Р­С‚Рѕ РЅРµ РїСЂРѕСЃРёР»Рё РґРµР»Р°С‚СЊ, РЅРѕ РїСѓСЃС‚СЊ Р±СѓРґРµС‚ (РІ РѕСЃС‚Р°Р»СЊРЅС‹С… РјРµС‚РѕРґР°С… РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ)
     void PushBack(const Type& value) {
         Node* back = &head_;
         while (back->next_node) { back = back->next_node;}
@@ -167,8 +167,8 @@ public:
         ++size_;
     }
 
-    // Функция удаления из конца списка
-    // Это не просили делать, но пусть будет (в остальных методах не используется)
+    // Р¤СѓРЅРєС†РёСЏ СѓРґР°Р»РµРЅРёСЏ РёР· РєРѕРЅС†Р° СЃРїРёСЃРєР°
+    // Р­С‚Рѕ РЅРµ РїСЂРѕСЃРёР»Рё РґРµР»Р°С‚СЊ, РЅРѕ РїСѓСЃС‚СЊ Р±СѓРґРµС‚ (РІ РѕСЃС‚Р°Р»СЊРЅС‹С… РјРµС‚РѕРґР°С… РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ)
     void PopBack() noexcept  {
         assert(!IsEmpty());
 
@@ -180,7 +180,7 @@ public:
         --size_;
     }
 
-    // Функция добавления после элемента, на который указывает итератор
+    // Р¤СѓРЅРєС†РёСЏ РґРѕР±Р°РІР»РµРЅРёСЏ РїРѕСЃР»Рµ СЌР»РµРјРµРЅС‚Р°, РЅР° РєРѕС‚РѕСЂС‹Р№ СѓРєР°Р·С‹РІР°РµС‚ РёС‚РµСЂР°С‚РѕСЂ
     Iterator InsertAfter(ConstIterator pos, const Type& value) {
         assert(pos.node_);
 
@@ -189,7 +189,7 @@ public:
         return Iterator(pos.node_->next_node);
     }
 
-    // Функция удаления после элемента, на который указывает итератор
+    // Р¤СѓРЅРєС†РёСЏ СѓРґР°Р»РµРЅРёСЏ РїРѕСЃР»Рµ СЌР»РµРјРµРЅС‚Р°, РЅР° РєРѕС‚РѕСЂС‹Р№ СѓРєР°Р·С‹РІР°РµС‚ РёС‚РµСЂР°С‚РѕСЂ
     Iterator EraseAfter(ConstIterator pos) noexcept {
         assert(pos.node_);
         assert(pos.node_->next_node);
@@ -202,7 +202,7 @@ public:
         return Iterator(tmp);
     }
 
-    // Очистка списка
+    // РћС‡РёСЃС‚РєР° СЃРїРёСЃРєР°
     void Clear() noexcept {
         while (head_.next_node) {
             Node* tmp = head_.next_node->next_node;
@@ -214,11 +214,11 @@ public:
     }
 
 private:
-    Node head_;        // Фиктивный узел
-    size_t size_ = 0u; // Размер списка
+    Node head_;        // Р¤РёРєС‚РёРІРЅС‹Р№ СѓР·РµР»
+    size_t size_ = 0u; // Р Р°Р·РјРµСЂ СЃРїРёСЃРєР°
 
-    // Функция для реализации идеомы copy-and-swap в конструкторе: создаёт список, инициализированный
-    // элементами в интервале [begin; end) и меняет его местами с текущим
+    // Р¤СѓРЅРєС†РёСЏ РґР»СЏ СЂРµР°Р»РёР·Р°С†РёРё РёРґРµРѕРјС‹ copy-and-swap РІ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂРµ: СЃРѕР·РґР°С‘С‚ СЃРїРёСЃРѕРє, РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅС‹Р№
+    // СЌР»РµРјРµРЅС‚Р°РјРё РІ РёРЅС‚РµСЂРІР°Р»Рµ [begin; end) Рё РјРµРЅСЏРµС‚ РµРіРѕ РјРµСЃС‚Р°РјРё СЃ С‚РµРєСѓС‰РёРј
     template <typename ContainerIterator>
     void CopyAndSwapFromIteratorRage(const ContainerIterator begin, const ContainerIterator end) {
         SingleLinkedList<Type> tmp;
@@ -235,25 +235,25 @@ private:
     }   
 };
 
-// Функция обмена формата swap(lhs, rhs)
+// Р¤СѓРЅРєС†РёСЏ РѕР±РјРµРЅР° С„РѕСЂРјР°С‚Р° swap(lhs, rhs)
 template <typename Type>
 void swap(SingleLinkedList<Type>& lhs, SingleLinkedList<Type>& rhs) noexcept {
     lhs.swap(rhs);
 }
 
-// Оператор сравнения списков "=="
+// РћРїРµСЂР°С‚РѕСЂ СЃСЂР°РІРЅРµРЅРёСЏ СЃРїРёСЃРєРѕРІ "=="
 template <typename Type>
 bool operator == (const SingleLinkedList<Type>& lhs, const SingleLinkedList<Type>& rhs) {
     return std::equal(lhs.cbegin(), lhs.cend(), rhs.cbegin(), rhs.cend());
 }
 
-// Оператор сравнения списков "<"
+// РћРїРµСЂР°С‚РѕСЂ СЃСЂР°РІРЅРµРЅРёСЏ СЃРїРёСЃРєРѕРІ "<"
 template <typename Type>
 bool operator < (const SingleLinkedList<Type>& lhs, const SingleLinkedList<Type>& rhs) {
     return std::lexicographical_compare(lhs.cbegin(), lhs.cend(), rhs.cbegin(), rhs.cend());
 }
 
-// Производные от "==" и "<" операторы сравнения списков
+// РџСЂРѕРёР·РІРѕРґРЅС‹Рµ РѕС‚ "==" Рё "<" РѕРїРµСЂР°С‚РѕСЂС‹ СЃСЂР°РІРЅРµРЅРёСЏ СЃРїРёСЃРєРѕРІ
 template <typename Type>
 bool operator != (const SingleLinkedList<Type>& lhs, const SingleLinkedList<Type>& rhs) { return !(lhs == rhs); }
 
@@ -266,7 +266,7 @@ bool operator <= (const SingleLinkedList<Type>& lhs, const SingleLinkedList<Type
 template <typename Type>
 bool operator >= (const SingleLinkedList<Type>& lhs, const SingleLinkedList<Type>& rhs) { return !(lhs < rhs); }
 
-// Оператор "<<" для вывода содержимого списка в поток
+// РћРїРµСЂР°С‚РѕСЂ "<<" РґР»СЏ РІС‹РІРѕРґР° СЃРѕРґРµСЂР¶РёРјРѕРіРѕ СЃРїРёСЃРєР° РІ РїРѕС‚РѕРє
 template <typename Type>
 std::ostream& operator << (std::ostream& os, const SingleLinkedList<Type>& single_linked_list) {
     using namespace std::literals;

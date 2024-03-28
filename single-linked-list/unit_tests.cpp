@@ -4,11 +4,11 @@
 #include "single-linked-list.h"
 using namespace std;
 
-// Пространство имён для Unit-тестов
+// РџСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ РёРјС‘РЅ РґР»СЏ Unit-С‚РµСЃС‚РѕРІ
 namespace unit_tests {
 
-// Структура подопытного объекта, который инкрементирует счётчик по указателю
-// (если он установлен) при вызове своего деструктора
+// РЎС‚СЂСѓРєС‚СѓСЂР° РїРѕРґРѕРїС‹С‚РЅРѕРіРѕ РѕР±СЉРµРєС‚Р°, РєРѕС‚РѕСЂС‹Р№ РёРЅРєСЂРµРјРµРЅС‚РёСЂСѓРµС‚ СЃС‡С‘С‚С‡РёРє РїРѕ СѓРєР°Р·Р°С‚РµР»СЋ
+// (РµСЃР»Рё РѕРЅ СѓСЃС‚Р°РЅРѕРІР»РµРЅ) РїСЂРё РІС‹Р·РѕРІРµ СЃРІРѕРµРіРѕ РґРµСЃС‚СЂСѓРєС‚РѕСЂР°
 struct DeletionSpy {
     ~DeletionSpy() {
         if (deletion_counter_ptr) {
@@ -16,11 +16,11 @@ struct DeletionSpy {
         }
     }
 
-    // Указатель на счётчик 
+    // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° СЃС‡С‘С‚С‡РёРє 
     int* deletion_counter_ptr = nullptr;
 };
 
-// Структура подопытного объекта, который выдёт исключение после создания N-ой копии
+// РЎС‚СЂСѓРєС‚СѓСЂР° РїРѕРґРѕРїС‹С‚РЅРѕРіРѕ РѕР±СЉРµРєС‚Р°, РєРѕС‚РѕСЂС‹Р№ РІС‹РґС‘С‚ РёСЃРєР»СЋС‡РµРЅРёРµ РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ N-РѕР№ РєРѕРїРёРё
 struct ThrowOnCopy {
     ThrowOnCopy() = default;
 
@@ -34,15 +34,15 @@ struct ThrowOnCopy {
         }
     }
 
-    // Присваивание элементов этого типа не требуется
+    // РџСЂРёСЃРІР°РёРІР°РЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ СЌС‚РѕРіРѕ С‚РёРїР° РЅРµ С‚СЂРµР±СѓРµС‚СЃСЏ
     ThrowOnCopy& operator=(const ThrowOnCopy& rhs) = delete;
 
-    // Указатель на счётчик обратного отсчёта. Если он не равен nullptr, то уменьшается при каждом копировании.
-    // Как только счётчик обнулится, конструктор копирования выбросит исключение
+    // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° СЃС‡С‘С‚С‡РёРє РѕР±СЂР°С‚РЅРѕРіРѕ РѕС‚СЃС‡С‘С‚Р°. Р•СЃР»Рё РѕРЅ РЅРµ СЂР°РІРµРЅ nullptr, С‚Рѕ СѓРјРµРЅСЊС€Р°РµС‚СЃСЏ РїСЂРё РєР°Р¶РґРѕРј РєРѕРїРёСЂРѕРІР°РЅРёРё.
+    // РљР°Рє С‚РѕР»СЊРєРѕ СЃС‡С‘С‚С‡РёРє РѕР±РЅСѓР»РёС‚СЃСЏ, РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ РІС‹Р±СЂРѕСЃРёС‚ РёСЃРєР»СЋС‡РµРЅРёРµ
     int* countdown_ptr = nullptr;
 };
 
-// UNIT-TEST: Проверка PopFront
+// UNIT-TEST: РџСЂРѕРІРµСЂРєР° PopFront
 void UnitTestPopFront() {
     SingleLinkedList<int> numbers{ 3, 14, 15, 92, 6 };
     numbers.PopFront();
@@ -57,7 +57,7 @@ void UnitTestPopFront() {
     ASSERT_EQUAL(deletion_counter, 1);
 }
 
-// UNIT-TEST: Проверка доступа к позиции, предшествующей begin
+// UNIT-TEST: РџСЂРѕРІРµСЂРєР° РґРѕСЃС‚СѓРїР° Рє РїРѕР·РёС†РёРё, РїСЂРµРґС€РµСЃС‚РІСѓСЋС‰РµР№ begin
 void UnitTestBeforeBegin() {
     SingleLinkedList<int> empty_list;
     const auto& const_empty_list = empty_list;
@@ -72,9 +72,9 @@ void UnitTestBeforeBegin() {
     ASSERT_EQUAL(++numbers.cbefore_begin(), const_numbers.begin());
 }
 
-// UNIT-TEST: Проверка InsertAfter
+// UNIT-TEST: РџСЂРѕРІРµСЂРєР° InsertAfter
 void UnitTestInsertAfter() {
-    // Вставка в пустой список
+    // Р’СЃС‚Р°РІРєР° РІ РїСѓСЃС‚РѕР№ СЃРїРёСЃРѕРє
     {
         SingleLinkedList<int> lst;
         const auto inserted_item_pos = lst.InsertAfter(lst.before_begin(), 123);
@@ -83,7 +83,7 @@ void UnitTestInsertAfter() {
         ASSERT_EQUAL(*inserted_item_pos, 123);
     }
 
-    // Вставка в непустой список
+    // Р’СЃС‚Р°РІРєР° РІ РЅРµРїСѓСЃС‚РѕР№ СЃРїРёСЃРѕРє
     {
         SingleLinkedList<int> lst{ 1, 2, 3 };
         auto inserted_item_pos = lst.InsertAfter(lst.before_begin(), 123);
@@ -100,7 +100,7 @@ void UnitTestInsertAfter() {
     };
 }
 
-// UNIT-TEST: Проверка обеспечения строгой гарантии безопасности исключений
+// UNIT-TEST: РџСЂРѕРІРµСЂРєР° РѕР±РµСЃРїРµС‡РµРЅРёСЏ СЃС‚СЂРѕРіРѕР№ РіР°СЂР°РЅС‚РёРё Р±РµР·РѕРїР°СЃРЅРѕСЃС‚Рё РёСЃРєР»СЋС‡РµРЅРёР№
 void UnitTestNoExcept() {
     bool exception_was_thrown = false;
     for (int max_copy_counter = 10; max_copy_counter >= 0; --max_copy_counter) {
@@ -119,7 +119,7 @@ void UnitTestNoExcept() {
     ASSERT(exception_was_thrown);
 }
 
-// UNIT-TEST: Проверка EraseAfter
+// UNIT-TEST: РџСЂРѕРІРµСЂРєР° EraseAfter
 void UnitTestEraseAfter() {
     {
         SingleLinkedList<int> lst{ 1, 2, 3, 4 };
@@ -154,7 +154,7 @@ void UnitTestEraseAfter() {
     }
 }
 
-// Запуск Unit-тестов для односвязного списка
+// Р—Р°РїСѓСЃРє Unit-С‚РµСЃС‚РѕРІ РґР»СЏ РѕРґРЅРѕСЃРІСЏР·РЅРѕРіРѕ СЃРїРёСЃРєР°
 void RunTestSingleLinkedList() {
     RUN_TEST(UnitTestPopFront);
     RUN_TEST(UnitTestBeforeBegin);

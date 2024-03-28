@@ -2,10 +2,10 @@
 #include <iostream>
 #include <string>
 
-// Пространство имён для Unit-тестов
+// РџСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ РёРјС‘РЅ РґР»СЏ Unit-С‚РµСЃС‚РѕРІ
 namespace unit_tests {
 
-// Функция сравнения объектов для макроса сравнения выражений
+// Р¤СѓРЅРєС†РёСЏ СЃСЂР°РІРЅРµРЅРёСЏ РѕР±СЉРµРєС‚РѕРІ РґР»СЏ РјР°РєСЂРѕСЃР° СЃСЂР°РІРЅРµРЅРёСЏ РІС‹СЂР°Р¶РµРЅРёР№
 template <typename T, typename U>
 void AssertEqualImpl(const T& t, const U& u, const std::string& t_str, const std::string& u_str, const std::string& file, const std::string& func, unsigned line, const std::string& hint) {
     using namespace std;
@@ -22,13 +22,13 @@ void AssertEqualImpl(const T& t, const U& u, const std::string& t_str, const std
     }
 }
 
-// Макрос сравнения выражений
+// РњР°РєСЂРѕСЃ СЃСЂР°РІРЅРµРЅРёСЏ РІС‹СЂР°Р¶РµРЅРёР№
 #define ASSERT_EQUAL(a, b) AssertEqualImpl((a), (b), #a, #b, __FILE__, __FUNCTION__, __LINE__, ""s)
 
-// Макрос сравнения выражений со строковой подсказкой
+// РњР°РєСЂРѕСЃ СЃСЂР°РІРЅРµРЅРёСЏ РІС‹СЂР°Р¶РµРЅРёР№ СЃРѕ СЃС‚СЂРѕРєРѕРІРѕР№ РїРѕРґСЃРєР°Р·РєРѕР№
 #define ASSERT_EQUAL_HINT(a, b, hint) AssertEqualImpl((a), (b), #a, #b, __FILE__, __FUNCTION__, __LINE__, (hint))
 
-// Функция сравнения (неравенства) объектов для макроса сравнения выражений
+// Р¤СѓРЅРєС†РёСЏ СЃСЂР°РІРЅРµРЅРёСЏ (РЅРµСЂР°РІРµРЅСЃС‚РІР°) РѕР±СЉРµРєС‚РѕРІ РґР»СЏ РјР°РєСЂРѕСЃР° СЃСЂР°РІРЅРµРЅРёСЏ РІС‹СЂР°Р¶РµРЅРёР№
 template <typename T, typename U>
 void AssertNotEqualImpl(const T& t, const U& u, const std::string& t_str, const std::string& u_str, const std::string& file, const std::string& func, unsigned line, const std::string& hint) {
     using namespace std;
@@ -45,13 +45,13 @@ void AssertNotEqualImpl(const T& t, const U& u, const std::string& t_str, const 
     }
 }
 
-// Макрос сравнения (неравенства) выражений
+// РњР°РєСЂРѕСЃ СЃСЂР°РІРЅРµРЅРёСЏ (РЅРµСЂР°РІРµРЅСЃС‚РІР°) РІС‹СЂР°Р¶РµРЅРёР№
 #define ASSERT_NOT_EQUAL(a, b) AssertNotEqualImpl((a), (b), #a, #b, __FILE__, __FUNCTION__, __LINE__, ""s)
 
-// Макрос сравнения (неравенства) выражений со строковой подсказкой
+// РњР°РєСЂРѕСЃ СЃСЂР°РІРЅРµРЅРёСЏ (РЅРµСЂР°РІРµРЅСЃС‚РІР°) РІС‹СЂР°Р¶РµРЅРёР№ СЃРѕ СЃС‚СЂРѕРєРѕРІРѕР№ РїРѕРґСЃРєР°Р·РєРѕР№
 #define ASSERT_NOT_EQUAL_HINT(a, b, hint) AssertNotEqualImpl((a), (b), #a, #b, __FILE__, __FUNCTION__, __LINE__, (hint))
 
-// Функция проверки логического значения для макроса проверки логического выражения
+// Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё Р»РѕРіРёС‡РµСЃРєРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РґР»СЏ РјР°РєСЂРѕСЃР° РїСЂРѕРІРµСЂРєРё Р»РѕРіРёС‡РµСЃРєРѕРіРѕ РІС‹СЂР°Р¶РµРЅРёСЏ
 inline void AssertImpl(bool value, const std::string& expr_str, const std::string& file, const std::string& func, unsigned line, const std::string& hint) {
     using namespace std;
     if (!value) {
@@ -65,13 +65,13 @@ inline void AssertImpl(bool value, const std::string& expr_str, const std::strin
     }
 }
 
-// Макрос проверки логического выражения
+// РњР°РєСЂРѕСЃ РїСЂРѕРІРµСЂРєРё Р»РѕРіРёС‡РµСЃРєРѕРіРѕ РІС‹СЂР°Р¶РµРЅРёСЏ
 #define ASSERT(expr) AssertImpl((static_cast<bool>(expr)), #expr, __FILE__, __FUNCTION__, __LINE__, ""s)
 
-// Макрос проверки логического выражения со строковой подсказкой
+// РњР°РєСЂРѕСЃ РїСЂРѕРІРµСЂРєРё Р»РѕРіРёС‡РµСЃРєРѕРіРѕ РІС‹СЂР°Р¶РµРЅРёСЏ СЃРѕ СЃС‚СЂРѕРєРѕРІРѕР№ РїРѕРґСЃРєР°Р·РєРѕР№
 #define ASSERT_HINT(expr, hint) AssertImpl((static_cast<bool>(expr)), #expr, __FILE__, __FUNCTION__, __LINE__, (hint))
 
-// Функция сравнения действительных чисел для макроса сравнения выражений со значениями действительных чисел (с точностью до epsilon)
+// Р¤СѓРЅРєС†РёСЏ СЃСЂР°РІРЅРµРЅРёСЏ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅС‹С… С‡РёСЃРµР» РґР»СЏ РјР°РєСЂРѕСЃР° СЃСЂР°РІРЅРµРЅРёСЏ РІС‹СЂР°Р¶РµРЅРёР№ СЃРѕ Р·РЅР°С‡РµРЅРёСЏРјРё РґРµР№СЃС‚РІРёС‚РµР»СЊРЅС‹С… С‡РёСЃРµР» (СЃ С‚РѕС‡РЅРѕСЃС‚СЊСЋ РґРѕ epsilon)
 inline void AssertEqualEpsImpl(const double eps, const double& t, const double& u, const std::string& t_str, const std::string& u_str, const std::string& file, const std::string& func, unsigned line, const std::string& hint) {
     using namespace std;
     if (abs(t - u) >= eps) {
@@ -87,13 +87,13 @@ inline void AssertEqualEpsImpl(const double eps, const double& t, const double& 
     }
 }
 
-// Макрос сравнения выражений со значениями действительных чисел (с точностью до epsilon)
+// РњР°РєСЂРѕСЃ СЃСЂР°РІРЅРµРЅРёСЏ РІС‹СЂР°Р¶РµРЅРёР№ СЃРѕ Р·РЅР°С‡РµРЅРёСЏРјРё РґРµР№СЃС‚РІРёС‚РµР»СЊРЅС‹С… С‡РёСЃРµР» (СЃ С‚РѕС‡РЅРѕСЃС‚СЊСЋ РґРѕ epsilon)
 #define ASSERT_EQUAL_EPS(a, b, eps) AssertEqualEpsImpl((eps), (a), (b), #a, #b, __FILE__, __FUNCTION__, __LINE__, ""s)
 
-// Макрос сравнения выражений со значениями действительных чисел (с точностью до epsilon) со строковой подсказкой
+// РњР°РєСЂРѕСЃ СЃСЂР°РІРЅРµРЅРёСЏ РІС‹СЂР°Р¶РµРЅРёР№ СЃРѕ Р·РЅР°С‡РµРЅРёСЏРјРё РґРµР№СЃС‚РІРёС‚РµР»СЊРЅС‹С… С‡РёСЃРµР» (СЃ С‚РѕС‡РЅРѕСЃС‚СЊСЋ РґРѕ epsilon) СЃРѕ СЃС‚СЂРѕРєРѕРІРѕР№ РїРѕРґСЃРєР°Р·РєРѕР№
 #define ASSERT_EQUAL_EPS_HINT(a, b, eps, hint) AssertEqualEpsImpl((eps), (a), (b), #a, #b, __FILE__, __FUNCTION__, __LINE__, (hint))
 
-// Функция запуска unit-теста для макроса запуска unit-теста
+// Р¤СѓРЅРєС†РёСЏ Р·Р°РїСѓСЃРєР° unit-С‚РµСЃС‚Р° РґР»СЏ РјР°РєСЂРѕСЃР° Р·Р°РїСѓСЃРєР° unit-С‚РµСЃС‚Р°
 template <typename TestFunction>
 void RunTestImpl(TestFunction test_function, const std::string& test_function_name) {
     using namespace std;
@@ -101,7 +101,7 @@ void RunTestImpl(TestFunction test_function, const std::string& test_function_na
     cerr << test_function_name << " OK"s << endl;
 }
 
-// Макрос запуска unit-теста
+// РњР°РєСЂРѕСЃ Р·Р°РїСѓСЃРєР° unit-С‚РµСЃС‚Р°
 #define RUN_TEST(func) RunTestImpl(func, #func)
 
 }
